@@ -55,6 +55,12 @@ rec {
     pycharmEdition = if jetbrains.usePro then "professional" else "community";
   };
 
+  python = {
+    # Base folder of the virtual environments Poetry creates, one subfolder per
+    # project. Expanded by the shell, so $HOME is each user's home folder.
+    venvPath = "$HOME/.virtualenvs";
+  };
+
   # ----------------------------------------------------------------------------
   # Package Versions & Version Pinning
   # ----------------------------------------------------------------------------

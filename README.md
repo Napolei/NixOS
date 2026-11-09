@@ -101,7 +101,7 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 │   └── shell/                    # System-wide aliases and environment
 ├── applications/                 # System-wide programs, one folder per program
 │   ├── consoles/                 # Terminal and CLI tools (see below)
-│   ├── development/              # git, Docker, Python (pip, Poetry, uv), PyCharm
+│   ├── development/              # git, Docker, Python with Poetry, PyCharm
 │   └── web/                      # curl, wget
 └── home-manager/                 # Per-user settings template, see home-manager/README.md
 ```
@@ -114,7 +114,8 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 | `hostName` | Set by `flake.nix` (see below) |
 | `user` | User name, description, password hash, UID |
 | `jetbrains.usePro` | PyCharm Professional instead of Community |
-| `packageVersions` | Pinned versions: `python` (source build of that release, with pip) and `poetry` (Poetry with its matching poetry-core). Each takes a `version` and a source `hash` |
+| `python.venvPath` | Base folder of the virtual environments Poetry creates (default `$HOME/.virtualenvs`), set as `POETRY_VIRTUALENVS_PATH` |
+| `packageVersions` | Pinned versions: `python` (source build of that release) and `poetry` (Poetry with its matching poetry-core). Each takes a `version` and a source `hash` |
 
 ### Hosts
 
@@ -154,7 +155,7 @@ CLI tools in `applications/consoles/`: archives (zip, unzip, 7z), bat, broot, bt
 
 `applications/development/direnv` loads a project's Nix dev shell when you enter its directory: `echo "use flake" > .envrc && direnv allow`.
 
-`applications/development/python` installs Python with pip, Poetry and uv. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version) and the Poetry version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs; point a project at the pinned one with `poetry env use python3`. pip can't install into the system Python (it's in the read-only Nix store): use it inside a virtual environment (`python3 -m venv .venv`), or use uv / Poetry, which create one per project.
+`applications/development/python` installs Python and Poetry. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version) and the Poetry version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs; point a project at the pinned one with `poetry env use python3`. Its virtual environments go to `python.venvPath` in `vars.nix`, one folder per project; a project's `poetry.toml` or `poetry config virtualenvs.path` can still change that.
 
 ### Nix housekeeping (`core/nix.nix`)
 

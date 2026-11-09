@@ -1,8 +1,7 @@
-# Python with pip, Poetry and uv. The Python and Poetry versions are pinned
-# in vars.nix (packageVersions).
+# Python and Poetry. Their versions are pinned in vars.nix (packageVersions),
+# the folder of Poetry's virtual environments is vars.python.venvPath.
 # https://www.python.org
 # https://python-poetry.org
-# https://docs.astral.sh/uv/
 
 { config, pkgs, lib, vars ? import ../../../vars.nix { }, ... }:
 
@@ -12,7 +11,7 @@ let
 
   # The nixpkgs interpreter of the same minor version (e.g. python313), built
   # from the pinned source. Through `override`, so its patches and its package
-  # set (pip below) match the version.
+  # set match the version.
   versionParts = lib.splitVersion pythonConf.version;
   python =
     let
@@ -48,9 +47,6 @@ let
       });
     in
     self;
-
-  # pip in the same environment as the interpreter (`pip`, `python -m pip`)
-  pythonWithPip = python.withPackages (ps: [ ps.pip ]);
 
   # Poetry runs on its own Python from nixpkgs. Poetry and poetry-core must have
   # matching versions, so both are pinned. nixpkgs' patches only apply to its
@@ -97,8 +93,12 @@ let
 in
 {
   environment.systemPackages = [
-    pythonWithPip
+    python
     poetry
-    pkgs.uv
   ];
+
+  # Default folder of the virtual environments Poetry creates (Poetry's
+  # virtualenvs.path setting; a project or user config can still override it)
+  # https://python-poetry.org/docs/configuration/#virtualenvspath
+  environment.variables.POETRY_VIRTUALENVS_PATH = vars.python.venvPath;
 }
