@@ -101,7 +101,7 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 │   └── shell/                    # System-wide aliases and environment
 ├── applications/                 # System-wide programs, one folder per program
 │   ├── consoles/                 # Terminal and CLI tools (see below)
-│   ├── development/              # git, Docker, Python with Poetry, PyCharm
+│   ├── development/              # git, Docker, Node.js with npm, Python with Poetry, PyCharm
 │   └── web/                      # curl, wget
 └── home-manager/                 # Per-user settings template, see home-manager/README.md
 ```

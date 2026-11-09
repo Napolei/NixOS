@@ -7,6 +7,7 @@
     ./direnv
     ./docker
     ./git
+    ./nodejs
     ./oxker
     ./pycharm
     ./python

@@ -28,6 +28,7 @@
       development = import ./default.nix;
       direnv = import ./direnv;
       git = import ./git;
+      nodejs = import ./nodejs;
       pycharm = import ./pycharm;
       python = import ./python;
     };
