@@ -99,10 +99,18 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 │   ├── hardware/
 │   │   └── hardware-configuration-wsl.nix
 │   └── shell/                    # System-wide aliases and environment
-├── applications/                 # System-wide programs, one folder per program
-│   ├── consoles/                 # Terminal and CLI tools (see below)
-│   ├── development/              # git, Docker, Node.js with npm, Python with Poetry, pipx and uv, SQL Server ODBC drivers, PyCharm
-│   └── web/                      # curl, wget
+├── applications/                 # System-wide programs, one folder per purpose, one per program in it (see below)
+│   ├── containers/               # Docker, oxker
+│   ├── databases/                # SQL Server ODBC drivers
+│   ├── development/              # git, direnv
+│   ├── editors/                  # micro, nano, neovim, PyCharm
+│   ├── files/                    # File managers, listings, navigation, archives
+│   ├── languages/                # Node.js with npm, Python with Poetry, pipx and uv
+│   ├── network/                  # HTTP clients, downloads, DNS, ping, cloud storage
+│   ├── search/                   # fd, fselect, fzf, ripgrep
+│   ├── system/                   # Monitors, disk usage, system information
+│   ├── terminal/                 # kitty, tmux, prompt, shell helpers
+│   └── text/                     # bat, choose, jq / yq
 └── home-manager/                 # Per-user settings template, see home-manager/README.md
 ```
 
@@ -150,17 +158,29 @@ Then restart WSL with `wsl --shutdown`. Alternatively, only enlarge kitty with `
 
 ## Applications
 
-Every program has its own module in `applications/<category>/<program>/default.nix`, with a link to its website or documentation. Programs with user settings also have a file in `home-manager/applications/`.
+Every program has its own module in `applications/<group>/<program>/default.nix`, with a link to its website or documentation; the groups are by purpose. Programs with user settings also have a file in `home-manager/applications/<group>/`, in the same group.
 
-CLI tools in `applications/consoles/`: archives (zip, unzip, 7z), bat, broot, btop, choose, curlie, duf, dust, eza, fd, fselect, fzf, glances, gping, htop, httpie, iotop, jq / yq, kitty, lsd, mcfly, micro, nano, neovim (`nvim`), nnn, pay-respects (`fuck`), powerline, procs, rclone, ripgrep (`rg`), superfile (`spf`), system-tools (file, tree, lsof, lspci, lsusb, dig), tealdeer (`tldr`), tmux, yazi, zoxide (`z`, `zi`). `applications/development/oxker` is a terminal UI for Docker containers.
+| Group | Programs |
+|---|---|
+| `containers` | Docker, oxker (terminal UI for Docker containers) |
+| `databases` | mssql-odbc (SQL Server ODBC drivers, see below) |
+| `development` | git, direnv |
+| `editors` | micro, nano, neovim (`nvim`), PyCharm |
+| `files` | archives (zip, unzip, 7z), broot, eza, lsd, nnn, superfile (`spf`), yazi, zoxide (`z`, `zi`) |
+| `languages` | Node.js, Python (see below) |
+| `network` | curl, curlie, dnsutils (dig, nslookup), gping, httpie, rclone, wget |
+| `search` | fd, fselect, fzf, ripgrep (`rg`) |
+| `system` | btop, duf, dust, glances, htop, iotop, procs, system-tools (file, tree, lsof, lspci, lsusb) |
+| `terminal` | kitty, mcfly, pay-respects (`fuck`), powerline, tealdeer (`tldr`), tmux |
+| `text` | bat, choose, jq / yq |
 
 `applications/development/direnv` loads a project's Nix dev shell when you enter its directory: `echo "use flake" > .envrc && direnv allow`.
 
-`applications/development/python` installs Python, Poetry, pipx and uv. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version), the Poetry version and the uv version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs, but creates project environments with the pinned one. Its virtual environments go to `python.venvPath` in `vars.nix`, one folder per project; a project's `poetry.toml` or `poetry config virtualenvs.path` can still change that. Apps installed with `pipx install` run on the pinned Python, with their commands in `~/.local/bin` (on the `PATH`). uv uses the pinned Python too (`UV_PYTHON`) and never downloads one, since its downloaded Pythons don't run on NixOS; it keeps a project's environment in the project's `.venv`, and `uv tool install` puts commands in `~/.local/bin`.
+`applications/languages/python` installs Python, Poetry, pipx and uv. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version), the Poetry version and the uv version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs, but creates project environments with the pinned one. Its virtual environments go to `python.venvPath` in `vars.nix`, one folder per project; a project's `poetry.toml` or `poetry config virtualenvs.path` can still change that. Apps installed with `pipx install` run on the pinned Python, with their commands in `~/.local/bin` (on the `PATH`). uv uses the pinned Python too (`UV_PYTHON`) and never downloads one, since its downloaded Pythons don't run on NixOS; it keeps a project's environment in the project's `.venv`, and `uv tool install` puts commands in `~/.local/bin`.
 
-`applications/development/nodejs` installs Node.js (the major version from `packageVersions.nodejs`) with npm and npx. `npm install -g` installs into `nodejs.npmGlobalPath` from `vars.nix`, whose `bin` folder is on the `PATH`.
+`applications/languages/nodejs` installs Node.js (the major version from `packageVersions.nodejs`) with npm and npx. `npm install -g` installs into `nodejs.npmGlobalPath` from `vars.nix`, whose `bin` folder is on the `PATH`.
 
-`applications/development/mssql-odbc` installs the Microsoft ODBC Driver 17 and 18 for SQL Server, for pyodbc (`pyodbc.drivers()`) and other ODBC clients, e.g. `DRIVER={ODBC Driver 18 for SQL Server};SERVER=...`. `odbcinst -q -d` lists them. pyodbc from PyPI needs `libodbc.so.2` and `libstdc++.so.6`, which programs built with Nix don't find on their own, so both are on `LD_LIBRARY_PATH` for every program.
+`applications/databases/mssql-odbc` installs the Microsoft ODBC Driver 17 and 18 for SQL Server, for pyodbc (`pyodbc.drivers()`) and other ODBC clients, e.g. `DRIVER={ODBC Driver 18 for SQL Server};SERVER=...`. `odbcinst -q -d` lists them. pyodbc from PyPI needs `libodbc.so.2` and `libstdc++.so.6`, which programs built with Nix don't find on their own, so both are on `LD_LIBRARY_PATH` for every program.
 
 ### Nix housekeeping (`core/nix.nix`)
 
@@ -168,7 +188,7 @@ CLI tools in `applications/consoles/`: archives (zip, unzip, 7z), bat, broot, bt
 - **Store optimisation** (`auto-optimise-store`) hard-links identical files.
 - **nix-index** with a prebuilt weekly database (flake input `nix-index-database`): an unknown command suggests the package that has it, `, <program>` runs a program without installing it, and `nix-locate bin/<name>` searches all packages.
 
-Docker (`applications/development/docker`) uses `/28` address pools, and the user is in the `docker` group.
+Docker (`applications/containers/docker`) uses `/28` address pools, and the user is in the `docker` group.
 
 To add a program: create `applications/<category>/<program>/default.nix`, add it to the category's `default.nix` imports, `git add` it and rebuild.
 

@@ -1,11 +1,20 @@
-# Aggregator module for all application and program configurations
+# Aggregator module for all application and program configurations, one
+# folder per purpose
 
 { config, pkgs, lib, ... }:
 
 {
   imports = [
-    ./consoles
+    ./containers
+    ./databases
     ./development
-    ./web
+    ./editors
+    ./files
+    ./languages
+    ./network
+    ./search
+    ./system
+    ./terminal
+    ./text
   ];
 }

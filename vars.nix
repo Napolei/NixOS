@@ -81,7 +81,7 @@ rec {
       hash = "sha256:abb0102e6d4ae027509bcb82327d9dd85515b44a3ba8ad538cfc5e9847029f68";
     };
 
-    # Poetry (applications/development/python), from its GitHub releases:
+    # Poetry (applications/languages/python), from its GitHub releases:
     # https://github.com/python-poetry/poetry/releases
     # poetry-core must be the version that Poetry release requires:
     # https://github.com/python-poetry/poetry-core/releases
@@ -96,7 +96,7 @@ rec {
       };
     };
 
-    # uv (applications/development/python), built from source like nixpkgs'
+    # uv (applications/languages/python), built from source like nixpkgs'
     # package: https://github.com/astral-sh/uv/releases
     # hash is the source archive's, cargoHash the Rust dependencies'; after
     # changing the version, set both to "" and copy each correct one from the
@@ -108,7 +108,7 @@ rec {
       cargoHash = "sha256-fGSkvK12wafGRSH2vmXrTncENwFNw0jTbKRXTwtnO9s=";
     };
 
-    # Node.js major version (applications/development/nodejs): uses nixpkgs'
+    # Node.js major version (applications/languages/nodejs): uses nixpkgs'
     # nodejs_<version>, the latest release of it. Release schedule (even
     # versions become LTS): https://nodejs.org/en/about/previous-releases
     nodejs = "24";

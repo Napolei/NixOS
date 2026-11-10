@@ -7,7 +7,7 @@
 
   # https://www.nano-editor.org/dist/latest/nanorc.5.html
   # (Smooth line-by-line scrolling is the default; the old `set smooth` no
-  # longer exists. Colours are per user: home-manager/applications/consoles/nano.nix)
+  # longer exists. Colours are per user: home-manager/applications/editors/nano.nix)
   programs.nano.nanorc = ''
     set tabstospaces
     set tabsize 2

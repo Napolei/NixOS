@@ -28,24 +28,34 @@
       default = import ./default.nix;
       applications = import ./default.nix;
 
-      # Categories
-      consoles = import ./consoles;
+      # Groups, one per purpose
+      containers = import ./containers;
+      databases = import ./databases;
       development = import ./development;
-      web = import ./web;
+      editors = import ./editors;
+      files = import ./files;
+      languages = import ./languages;
+      network = import ./network;
+      search = import ./search;
+      system = import ./system;
+      terminal = import ./terminal;
+      text = import ./text;
 
       # Individual application / tool modules
-      btop = import ./consoles/btop;
-      curl = import ./web/curl;
+      btop = import ./system/btop;
+      curl = import ./network/curl;
+      direnv = import ./development/direnv;
       git = import ./development/git;
-      htop = import ./consoles/htop;
-      iotop = import ./consoles/iotop;
-      kitty = import ./consoles/kitty;
-      mssql-odbc = import ./development/mssql-odbc;
-      nano = import ./consoles/nano;
-      powerline = import ./consoles/powerline;
-      pycharm = import ./development/pycharm;
-      python = import ./development/python;
-      wget = import ./web/wget;
+      htop = import ./system/htop;
+      iotop = import ./system/iotop;
+      kitty = import ./terminal/kitty;
+      mssql-odbc = import ./databases/mssql-odbc;
+      nano = import ./editors/nano;
+      nodejs = import ./languages/nodejs;
+      powerline = import ./terminal/powerline;
+      pycharm = import ./editors/pycharm;
+      python = import ./languages/python;
+      wget = import ./network/wget;
     };
 
     # Convenient alias

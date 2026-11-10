@@ -6,7 +6,7 @@
 
 {
   xdg.configFile."bat/config".text = ''
-    # "ansi" uses the terminal colours (theme.colors, see terminal-colors.nix)
+    # "ansi" uses the terminal colours (theme.colors, see terminal/terminal-colors.nix)
     --theme="ansi"
     --style="numbers,changes,header"
     --italic-text=always

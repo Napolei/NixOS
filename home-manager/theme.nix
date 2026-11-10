@@ -68,7 +68,7 @@ rec {
   font = "JetBrainsMono Nerd Font";
 
   # ----------------------------------------------------------------------------
-  # Powerline prompt (applications/consoles/powerline.nix)
+  # Powerline prompt (applications/terminal/powerline.nix)
   # ----------------------------------------------------------------------------
   # Neighbouring segments differ in lightness, not only in hue (see highlight
   # and raisedLighten above)
@@ -81,7 +81,7 @@ rec {
   };
 
   # ----------------------------------------------------------------------------
-  # Terminal, kitty (applications/consoles/kitty.nix)
+  # Terminal, kitty (applications/terminal/kitty.nix)
   # ----------------------------------------------------------------------------
   kitty = {
     inherit font;

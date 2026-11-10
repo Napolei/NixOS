@@ -439,7 +439,7 @@ rec {
     '';
 
   # Powerline prompt colours, ~/.config/powerline/colors.json (true colour,
-  # see consoles/powerline.nix). Each: [ 256-colour fallback, hex ].
+  # see applications/terminal/powerline.nix). Each: [ 256-colour fallback, hex ].
   powerline = c:
     let
       prompt = theme.prompt or { };

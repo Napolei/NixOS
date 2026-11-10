@@ -20,7 +20,7 @@
     nfr = "cd /etc/nixos && sudo git pull --rebase && cp -r /etc/nixos/home-manager/* ~/.config/home-manager/ && nrs && hms";
     hmr = "cd /etc/nixos && sudo git pull --rebase && cp -r /etc/nixos/home-manager/* ~/.config/home-manager/ && hms";
 
-    # z with fzf (zoxide's zi, see applications/consoles/zoxide.nix)
+    # z with fzf (zoxide's zi, see applications/files/zoxide.nix)
     fz = "zi";
   };
 

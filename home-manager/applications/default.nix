@@ -5,15 +5,21 @@
 # Only user-specific settings live here. The applications themselves are
 # installed system-wide via /applications (sudo nixos-rebuild switch --flake .).
 #
-# To add settings for another application, create a .nix file below and add it
-# to the imports list.
+# One folder per purpose, like /applications. To add settings for another
+# application, create a .nix file in its folder and add it to that folder's
+# default.nix.
 # ==============================================================================
 
 {
   imports = [
-    ./consoles
-    ./terminal-colors.nix
-    ./development/git.nix
-    ./development/oxker.nix
+    ./containers
+    ./development
+    ./editors
+    ./files
+    ./network
+    ./search
+    ./system
+    ./terminal
+    ./text
   ];
 }

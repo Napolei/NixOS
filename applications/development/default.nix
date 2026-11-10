@@ -1,16 +1,10 @@
-# Aggregator module for development IDEs and tools
+# Aggregator module for development tools: version control and project environments
 
 { config, pkgs, lib, ... }:
 
 {
   imports = [
     ./direnv
-    ./docker
     ./git
-    ./mssql-odbc
-    ./nodejs
-    ./oxker
-    ./pycharm
-    ./python
   ];
 }

@@ -1,5 +1,5 @@
 # nano interface colours, read after the system-wide /etc/nanorc (syntax
-# highlighting, tabs: /applications/consoles/nano)
+# highlighting, tabs: /applications/editors/nano)
 # https://www.nano-editor.org/dist/latest/nanorc.5.html
 
 { lib, vars, ... }:

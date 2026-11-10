@@ -22,7 +22,7 @@ in
     FZF_CTRL_T_COMMAND = "fd --type f --hidden";
     FZF_ALT_C_COMMAND = "fd --type d --hidden";
     # Colors from the roles in theme.nix, as terminal palette numbers (the
-    # palette is set from theme.colors, see terminal-colors.nix)
+    # palette is set from theme.colors, see terminal/terminal-colors.nix)
     FZF_DEFAULT_OPTS = builtins.concatStringsSep " " [
       "--height=40% --layout=reverse --border"
       "--color=16,hl:${index "accent"},hl+:${index "accent"},bg+:${index "surface"},info:${index "dimmed"},prompt:${index "accent"},pointer:${index "accent"},marker:${index "accent"},spinner:${index "accent"},border:${index "surface"}"

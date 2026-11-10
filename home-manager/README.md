@@ -79,7 +79,7 @@ The colour files of all programs are written by the functions in `theme-lib.nix`
 | Program | How it gets the colours |
 |---|---|
 | kitty | `~/.config/kitty/colors.conf`, included by `kitty.conf` |
-| Other terminals (e.g. Windows Terminal) | Escape sequences for the palette, text, background and cursor when bash starts (`applications/terminal-colors.nix`) |
+| Other terminals (e.g. Windows Terminal) | Escape sequences for the palette, text, background and cursor when bash starts (`applications/terminal/terminal-colors.nix`) |
 | bat, fzf, nano | Terminal colours chosen by role (bat theme `ansi`, fzf `--color=16`, `~/.config/nano/nanorc`) |
 | Powerline prompt | `~/.config/powerline/colors.json`, in true colour. Backgrounds from `theme.nix` (`prompt`) |
 | btop | `~/.config/btop/themes/theme.theme`, set as `color_theme` in `btop.conf` on every `hms` (the rest of `btop.conf` stays editable) |
@@ -99,10 +99,17 @@ home-manager/
 ├── theme.nix                 # Your colour profile: palette, roles, font
 ├── theme-lib.nix             # Colour files of all programs from theme.nix
 ├── shell/aliases.nix         # All user aliases
-└── applications/             # Settings of system-wide programs
-    ├── consoles/             # bat, broot, btop, fd, fzf, glances, httpie, kitty, lsd, mcfly, micro, nano, neovim, nnn, pay-respects, powerline, ripgrep, superfile, tealdeer, tmux, yazi, zoxide
-    ├── development/          # git, oxker
-    └── terminal-colors.nix   # Palette for terminals other than kitty
+└── applications/             # Settings of system-wide programs, in the same groups as /applications
+    ├── containers/           # oxker
+    ├── development/          # git
+    ├── editors/              # micro, nano, neovim
+    ├── files/                # broot, lsd, nnn, superfile, yazi, zoxide
+    ├── network/              # httpie
+    ├── search/               # fd, fzf, ripgrep
+    ├── system/               # btop, glances
+    ├── terminal/             # kitty, mcfly, pay-respects, powerline, tealdeer, tmux,
+    │                         # terminal-colors.nix (palette for terminals other than kitty)
+    └── text/                 # bat
 ```
 
 To add settings for another program: create a `.nix` file under `applications/`, add it to the `imports` of the folder's `default.nix` and run `hms`. Use `xdg.configFile` or a Home Manager `programs.<name>` module with `package = null`, so nothing gets installed per user.
