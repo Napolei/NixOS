@@ -1,5 +1,6 @@
-# Python and Poetry. Their versions are pinned in vars.nix (packageVersions),
-# the folder of Poetry's virtual environments is vars.python.venvPath.
+# Python, Poetry and pipx. The Python and Poetry versions are pinned in
+# vars.nix (packageVersions), the folder of Poetry's virtual environments is
+# vars.python.venvPath.
 # https://www.python.org
 # https://python-poetry.org
 
@@ -90,15 +91,44 @@ let
     '';
     passthru = (old.passthru or { }) // { python = poetryPython; };
   }));
+
+  # Poetry's wrapper (bin/poetry) puts its own Python first on the PATH, and
+  # Poetry creates new project environments with the `python3` it finds there.
+  # This copy of the wrapper puts the pinned Python first after that, so new
+  # environments use it by default; Poetry itself keeps running on its own.
+  # (A second wrapper around it wouldn't work: Poetry's runs last.)
+  poetryWithPython = pkgs.symlinkJoin {
+    pname = "poetry";
+    inherit (poetry) version meta;
+    paths = [ poetry ];
+    postBuild = ''
+      rm $out/bin/poetry
+      substitute ${poetry}/bin/poetry $out/bin/poetry \
+        --replace-fail 'unset PYTHONPATH' 'unset PYTHONPATH
+      PATH=${python}/bin:$PATH'
+      chmod +x $out/bin/poetry
+    '';
+  };
 in
 {
   environment.systemPackages = [
     python
-    poetry
+    poetryWithPython
+    # Python command-line apps, each in its own virtual environment
+    # https://pipx.pypa.io
+    pkgs.pipx
   ];
 
-  # Default folder of the virtual environments Poetry creates (Poetry's
-  # virtualenvs.path setting; a project or user config can still override it)
-  # https://python-poetry.org/docs/configuration/#virtualenvspath
-  environment.variables.POETRY_VIRTUALENVS_PATH = vars.python.venvPath;
+  environment.variables = {
+    # Default folder of the virtual environments Poetry creates (Poetry's
+    # virtualenvs.path setting; a project or user config can still override it)
+    # https://python-poetry.org/docs/configuration/#virtualenvspath
+    POETRY_VIRTUALENVS_PATH = vars.python.venvPath;
+    # Apps installed with pipx run on the pinned Python
+    # https://pipx.pypa.io/stable/docs/#pipx-environment
+    PIPX_DEFAULT_PYTHON = "${python}/bin/python3";
+  };
+
+  # pipx links the apps' commands into ~/.local/bin
+  environment.localBinInPath = true;
 }

@@ -61,6 +61,12 @@ rec {
     venvPath = "$HOME/.virtualenvs";
   };
 
+  nodejs = {
+    # Folder of the packages `npm install -g` installs (npm's prefix); its bin
+    # folder is on the PATH. Expanded by the shell, like venvPath.
+    npmGlobalPath = "$HOME/.npm-global";
+  };
+
   # ----------------------------------------------------------------------------
   # Package Versions & Version Pinning
   # ----------------------------------------------------------------------------
@@ -89,5 +95,10 @@ rec {
         hash = "sha256-i9EucMsoX8Z0iyhNDVYaczv1CSY/KaZpMjn/FGzIJU4=";
       };
     };
+
+    # Node.js major version (applications/development/nodejs): uses nixpkgs'
+    # nodejs_<version>, the latest release of it. Release schedule (even
+    # versions become LTS): https://nodejs.org/en/about/previous-releases
+    nodejs = "24";
   };
 }
