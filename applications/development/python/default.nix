@@ -1,8 +1,9 @@
-# Python, Poetry and pipx. The Python and Poetry versions are pinned in
+# Python, Poetry, pipx and uv. The Python, Poetry and uv versions are pinned in
 # vars.nix (packageVersions), the folder of Poetry's virtual environments is
 # vars.python.venvPath.
 # https://www.python.org
 # https://python-poetry.org
+# https://docs.astral.sh/uv
 
 { config, pkgs, lib, vars ? import ../../../vars.nix { }, ... }:
 
@@ -109,6 +110,25 @@ let
       chmod +x $out/bin/poetry
     '';
   };
+
+  # nixpkgs' uv with the version from vars.nix; with nixpkgs' version it is the
+  # same package, from the binary cache. Its source tag follows the version.
+  # buildRustPackage takes the Rust dependencies' hash from its original
+  # arguments, so they are fetched here the same way it does, with cargoHash.
+  uv = pkgs.uv.overrideAttrs (finalAttrs: old: {
+    inherit (vars.packageVersions.uv) version cargoHash;
+    src = old.src.override { inherit (vars.packageVersions.uv) hash; };
+    cargoDeps = pkgs.rustPlatform.fetchCargoVendor (
+      builtins.intersectAttrs (lib.genAttrs [
+        "name" "pname" "version" "src" "srcs" "sourceRoot" "cargoRoot"
+        "preUnpack" "unpackPhase" "postUnpack"
+      ] (_: null)) finalAttrs
+      // {
+        patches = [ ];
+        hash = vars.packageVersions.uv.cargoHash;
+      }
+    );
+  });
 in
 {
   environment.systemPackages = [
@@ -117,6 +137,9 @@ in
     # Python command-line apps, each in its own virtual environment
     # https://pipx.pypa.io
     pkgs.pipx
+    # Package and project manager
+    # https://docs.astral.sh/uv
+    uv
   ];
 
   environment.variables = {
@@ -127,8 +150,13 @@ in
     # Apps installed with pipx run on the pinned Python
     # https://pipx.pypa.io/stable/docs/#pipx-environment
     PIPX_DEFAULT_PYTHON = "${python}/bin/python3";
+    # uv uses the pinned Python. The Pythons it would download are built for
+    # other Linux distributions and don't run on NixOS, so it doesn't download any
+    # https://docs.astral.sh/uv/reference/environment/
+    UV_PYTHON = "${python}/bin/python3";
+    UV_PYTHON_DOWNLOADS = "never";
   };
 
-  # pipx links the apps' commands into ~/.local/bin
+  # pipx and `uv tool install` link the apps' commands into ~/.local/bin
   environment.localBinInPath = true;
 }

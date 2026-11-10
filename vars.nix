@@ -96,6 +96,18 @@ rec {
       };
     };
 
+    # uv (applications/development/python), built from source like nixpkgs'
+    # package: https://github.com/astral-sh/uv/releases
+    # hash is the source archive's, cargoHash the Rust dependencies'; after
+    # changing the version, set both to "" and copy each correct one from the
+    # build errors (the source first). Another version than nixpkgs' isn't in
+    # the binary cache, and compiling uv takes a while.
+    uv = {
+      version = "0.13.0";
+      hash = "sha256-xuC7aRvs7Cz5kXBSl65atxoji5zk9ACNHAoHiljj8Oo=";
+      cargoHash = "sha256-fGSkvK12wafGRSH2vmXrTncENwFNw0jTbKRXTwtnO9s=";
+    };
+
     # Node.js major version (applications/development/nodejs): uses nixpkgs'
     # nodejs_<version>, the latest release of it. Release schedule (even
     # versions become LTS): https://nodejs.org/en/about/previous-releases

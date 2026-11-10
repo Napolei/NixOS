@@ -101,7 +101,7 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 │   └── shell/                    # System-wide aliases and environment
 ├── applications/                 # System-wide programs, one folder per program
 │   ├── consoles/                 # Terminal and CLI tools (see below)
-│   ├── development/              # git, Docker, Node.js with npm, Python with Poetry and pipx, SQL Server ODBC drivers, PyCharm
+│   ├── development/              # git, Docker, Node.js with npm, Python with Poetry, pipx and uv, SQL Server ODBC drivers, PyCharm
 │   └── web/                      # curl, wget
 └── home-manager/                 # Per-user settings template, see home-manager/README.md
 ```
@@ -116,7 +116,7 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 | `jetbrains.usePro` | PyCharm Professional instead of Community |
 | `python.venvPath` | Base folder of the virtual environments Poetry creates (default `$HOME/.virtualenvs`), set as `POETRY_VIRTUALENVS_PATH` |
 | `nodejs.npmGlobalPath` | Folder of global npm packages (default `$HOME/.npm-global`), set as `NPM_CONFIG_PREFIX`, its `bin` on the `PATH` |
-| `packageVersions` | Pinned versions: `python` (source build of that release) and `poetry` (Poetry with its matching poetry-core), each with a `version` and a source `hash`; `nodejs`, the Node.js major version (e.g. `"24"`) |
+| `packageVersions` | Pinned versions: `python` (source build of that release) and `poetry` (Poetry with its matching poetry-core), each with a `version` and a source `hash`; `uv`, with a `version`, a source `hash` and a `cargoHash` for its Rust dependencies; `nodejs`, the Node.js major version (e.g. `"24"`) |
 
 ### Hosts
 
@@ -156,7 +156,7 @@ CLI tools in `applications/consoles/`: archives (zip, unzip, 7z), bat, broot, bt
 
 `applications/development/direnv` loads a project's Nix dev shell when you enter its directory: `echo "use flake" > .envrc && direnv allow`.
 
-`applications/development/python` installs Python, Poetry and pipx. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version) and the Poetry version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs, but creates project environments with the pinned one. Its virtual environments go to `python.venvPath` in `vars.nix`, one folder per project; a project's `poetry.toml` or `poetry config virtualenvs.path` can still change that. Apps installed with `pipx install` run on the pinned Python, with their commands in `~/.local/bin` (on the `PATH`).
+`applications/development/python` installs Python, Poetry, pipx and uv. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version), the Poetry version and the uv version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs, but creates project environments with the pinned one. Its virtual environments go to `python.venvPath` in `vars.nix`, one folder per project; a project's `poetry.toml` or `poetry config virtualenvs.path` can still change that. Apps installed with `pipx install` run on the pinned Python, with their commands in `~/.local/bin` (on the `PATH`). uv uses the pinned Python too (`UV_PYTHON`) and never downloads one, since its downloaded Pythons don't run on NixOS; it keeps a project's environment in the project's `.venv`, and `uv tool install` puts commands in `~/.local/bin`.
 
 `applications/development/nodejs` installs Node.js (the major version from `packageVersions.nodejs`) with npm and npx. `npm install -g` installs into `nodejs.npmGlobalPath` from `vars.nix`, whose `bin` folder is on the `PATH`.
 
