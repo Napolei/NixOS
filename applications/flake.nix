@@ -40,6 +40,7 @@
       htop = import ./consoles/htop;
       iotop = import ./consoles/iotop;
       kitty = import ./consoles/kitty;
+      mssql-odbc = import ./development/mssql-odbc;
       nano = import ./consoles/nano;
       powerline = import ./consoles/powerline;
       pycharm = import ./development/pycharm;

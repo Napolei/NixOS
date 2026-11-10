@@ -101,7 +101,7 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 │   └── shell/                    # System-wide aliases and environment
 ├── applications/                 # System-wide programs, one folder per program
 │   ├── consoles/                 # Terminal and CLI tools (see below)
-│   ├── development/              # git, Docker, Node.js with npm, Python with Poetry and pipx, PyCharm
+│   ├── development/              # git, Docker, Node.js with npm, Python with Poetry and pipx, SQL Server ODBC drivers, PyCharm
 │   └── web/                      # curl, wget
 └── home-manager/                 # Per-user settings template, see home-manager/README.md
 ```
@@ -159,6 +159,8 @@ CLI tools in `applications/consoles/`: archives (zip, unzip, 7z), bat, broot, bt
 `applications/development/python` installs Python, Poetry and pipx. The Python version (built from source, from the 3.x interpreter of nixpkgs with the same minor version) and the Poetry version are pinned in `vars.nix` (`packageVersions`). Poetry runs on its own Python from nixpkgs, but creates project environments with the pinned one. Its virtual environments go to `python.venvPath` in `vars.nix`, one folder per project; a project's `poetry.toml` or `poetry config virtualenvs.path` can still change that. Apps installed with `pipx install` run on the pinned Python, with their commands in `~/.local/bin` (on the `PATH`).
 
 `applications/development/nodejs` installs Node.js (the major version from `packageVersions.nodejs`) with npm and npx. `npm install -g` installs into `nodejs.npmGlobalPath` from `vars.nix`, whose `bin` folder is on the `PATH`.
+
+`applications/development/mssql-odbc` installs the Microsoft ODBC Driver 17 and 18 for SQL Server, for pyodbc (`pyodbc.drivers()`) and other ODBC clients, e.g. `DRIVER={ODBC Driver 18 for SQL Server};SERVER=...`. `odbcinst -q -d` lists them. pyodbc from PyPI needs `libodbc.so.2` and `libstdc++.so.6`, which programs built with Nix don't find on their own, so both are on `LD_LIBRARY_PATH` for every program.
 
 ### Nix housekeeping (`core/nix.nix`)
 

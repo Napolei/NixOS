@@ -7,6 +7,7 @@
     ./direnv
     ./docker
     ./git
+    ./mssql-odbc
     ./nodejs
     ./oxker
     ./pycharm

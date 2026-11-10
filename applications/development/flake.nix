@@ -28,6 +28,7 @@
       development = import ./default.nix;
       direnv = import ./direnv;
       git = import ./git;
+      mssql-odbc = import ./mssql-odbc;
       nodejs = import ./nodejs;
       pycharm = import ./pycharm;
       python = import ./python;
