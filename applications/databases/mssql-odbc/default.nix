@@ -6,6 +6,10 @@
 { config, pkgs, lib, ... }:
 
 let
+  # nixpkgs' msodbcsql17 is 17.7, which only loads OpenSSL 1.1; OpenSSL 3
+  # (nixpkgs' openssl) is supported from 17.10. The override keeps nixpkgs'
+  # unpack and install steps, which only work for major version 17.
+  # Releases: https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod/pool/main/m/msodbcsql17/
   msodbcsql17 = pkgs.unixodbcDrivers.msodbcsql17.overrideAttrs (old: rec {
     versionMajor = "17";
     versionMinor = "11";
@@ -29,7 +33,8 @@ let
       } $out/lib/libmsodbcsql-${versionMajor}.${versionMinor}.so.${versionAdditional}
     '';
 
-    # IMPORTANT: Update the unixODBC registration metadata too!
+    # Name and library path for /etc/odbcinst.ini; nixpkgs' still name the
+    # 17.7 library
     passthru = (old.passthru or {}) // {
       fancyName = "ODBC Driver 17 for SQL Server";
       driver = "lib/libmsodbcsql-${versionMajor}.${versionMinor}.so.${versionAdditional}";

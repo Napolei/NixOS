@@ -44,6 +44,7 @@ What was built, why it was built that way, what went wrong and how it was fixed,
 | **One flake output per host** (`hosts` in `flake.nix`, by default `wsl`), named after its hostname, which it also sets. `vars.nix` is a function of `hostName`. | `nixos-rebuild --flake .` picks the host by hostname and stops if there's none. |
 | **No desktop, audio, Bluetooth or printing modules** | WSL has no screen or hardware of its own; GUI apps use WSLg. `theme-lib.nix` moved from `home-manager/desktop/` to `home-manager/`. |
 | **`nh` for cleanup instead of `nix.gc`** (`--keep-since 14d --keep 5`), `nrs` unchanged | nh keeps a minimum number of generations and shows package diffs. `nrs` stays the documented way. |
+| **msodbcsql17 overridden to 17.11.1.1** (`applications/databases/mssql-odbc`): new version, source from Microsoft's Debian bullseye repository, `postFixup` and `passthru` (`fancyName`, `driver`) recomputed for the new library name | nixpkgs' 17.7.1.1 only loads OpenSSL 1.1; OpenSSL 3 is supported from 17.10. `overrideAttrs` doesn't recompute attributes that nixpkgs built from its own version numbers, so `postFixup` and `passthru.driver` must be set again; otherwise `/etc/odbcinst.ini` points at a missing `libmsodbcsql-17.7.so.1.1`. nixpkgs' install step hardcodes major version 17. |
 | **nix-index-database flake input** for `comma` / command-not-found | Building the nix-index database locally takes a long time; the input brings a prebuilt weekly one. `programs.command-not-found` is off: it needs a channel, which a flake system doesn't have. |
 
 ### Home Manager
@@ -71,6 +72,7 @@ How each program gets the colours:
 | `.git/index.lock` exists | Stale lock from another git process | Cleared by itself; don't delete it blindly |
 | WSL: `zoxide`, `fzf`, `mcfly`, `broot`, `pay-respects`: command not found; `ls` broken | WSL still ran the old generation (built with `boot`); the eza alias pointed to a missing `eza` | Restart WSL (`wsl -t NixOS`, `wsl -d NixOS --user root exit`, `wsl -t NixOS`); bash init and aliases guarded with `command -v` |
 | WSLg apps tiny; `.wslgconfig` had no effect | Section was `[system]` | `[system-distro-env]` with `WESTON_RDP_HI_DPI_SCALING`, `WESTON_RDP_FRACTIONAL_HI_DPI_SCALING`, `WESTON_RDP_DEBUG_DESKTOP_SCALING_FACTOR`, then `wsl --shutdown` |
+| ODBC Driver 17 for SQL Server couldn't use the system's OpenSSL 3 | nixpkgs packages msodbcsql 17.7.1.1, which predates OpenSSL 3 support (added in 17.10) | Override to 17.11.1.1 (see [Decisions](#system)). Checked: `/etc/odbcinst.ini` points at `libmsodbcsql-17.11.so.1.1`, its RUNPATH has openssl-3.5, and `isql` with drivers 17 and 18 loads `libcrypto.so.3` and gets as far as the TCP connect |
 | `home-manager/flake.lock` appeared in the git index (empty, intent-to-add) | Test builds of the HM flake inside the repository without `--no-write-lock-file` | `git rm --cached home-manager/flake.lock` and delete it; test builds now use `--no-write-lock-file` |
 
 ## Open items
