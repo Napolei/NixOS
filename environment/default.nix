@@ -5,11 +5,14 @@
 
 {
   environment.variables = {
-    # Bash history
+    # Bash history. No HISTTIMEFORMAT: with it, bash writes #<timestamp> lines
+    # and reads all lines up to the next one as one entry, but mcfly appends
+    # commands without them, so arrow-up returned several commands at once.
+    # mcfly keeps its own times (CTRL-R).
     HISTCONTROL = "ignoredups";
     HISTSIZE = "200000";
     HISTFILESIZE = "200000";
-    HISTTIMEFORMAT = "%Y/%m/%d-%H:%M	  ";
+    # HISTTIMEFORMAT = "%Y/%m/%d-%H:%M	  ";
 
     # GUI apps open as Windows windows
     DISPLAY = ":0";
