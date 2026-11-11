@@ -21,7 +21,7 @@ let
       patchelf --set-rpath ${
         lib.makeLibraryPath [
           pkgs.unixodbc
-          pkgs.openssl_3
+          pkgs.openssl
           pkgs.libkrb5
           pkgs.libuuid
           pkgs.stdenv.cc.cc
