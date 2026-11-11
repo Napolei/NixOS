@@ -14,7 +14,7 @@ let
 
     src = pkgs.fetchurl {
       url = "https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod/pool/main/m/msodbcsql17/msodbcsql17_${version}_amd64.deb";
-      hash = lib.fakeHash;
+      hash = "sha256-EcvcC8P2frnBky+Y3R6rGdSH76dypTw7LnPBkhR9pcA=";
     };
 
     postFixup = ''
