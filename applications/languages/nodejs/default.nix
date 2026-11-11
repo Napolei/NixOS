@@ -18,7 +18,13 @@ in
   # `npm install -g` writes here instead of into the read-only Nix store; its
   # commands are on the PATH
   # https://docs.npmjs.com/cli/configuring-npm/folders#prefix-configuration
-  environment.variables.NPM_CONFIG_PREFIX = vars.nodejs.npmGlobalPath;
+  environment.variables = {
+    NPM_CONFIG_PREFIX = vars.nodejs.npmGlobalPath;
+    # No funding and "new npm version" notices
+    # https://docs.npmjs.com/cli/using-npm/config#fund
+    NPM_CONFIG_FUND = "false";
+    NPM_CONFIG_UPDATE_NOTIFIER = "false";
+  };
   environment.extraInit = ''
     export PATH="${vars.nodejs.npmGlobalPath}/bin:$PATH"
   '';

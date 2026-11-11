@@ -11,4 +11,15 @@
     --style="numbers,changes,header"
     --italic-text=always
   '';
+
+  # Coloured man pages through bat, only when bat is installed system-wide
+  # (otherwise man keeps PAGER). MANROFFOPT=-c keeps man's formatting codes
+  # readable for col.
+  # https://github.com/sharkdp/bat#man
+  programs.bash.initExtra = ''
+    if command -v bat >/dev/null; then
+      export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+      export MANROFFOPT="-c"
+    fi
+  '';
 }

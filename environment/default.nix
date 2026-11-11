@@ -15,5 +15,9 @@
     DISPLAY = ":0";
     WAYLAND_DISPLAY = "wayland-0";
     QT_QPA_PLATFORM = "xcb";
+
+    # Opt out of telemetry in tools that follow this convention
+    # https://consoledonottrack.com
+    DO_NOT_TRACK = "1";
   };
 }

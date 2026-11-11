@@ -1,4 +1,5 @@
-# Aggregator module for system monitoring, disk usage and system information
+# Aggregator module for system monitoring, disk usage, system information and
+# WSL utilities
 
 { config, pkgs, lib, ... }:
 
@@ -12,5 +13,6 @@
     ./iotop
     ./procs
     ./system-tools
+    ./wsl-open
   ];
 }

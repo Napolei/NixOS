@@ -155,6 +155,24 @@ in
     # https://docs.astral.sh/uv/reference/environment/
     UV_PYTHON = "${python}/bin/python3";
     UV_PYTHON_DOWNLOADS = "never";
+    # Print and log output right away instead of buffering it, e.g. when it's
+    # piped or runs in the background
+    # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
+    PYTHONUNBUFFERED = "1";
+    # No __pycache__ folders in the projects (imports compile each time instead)
+    # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
+    PYTHONDONTWRITEBYTECODE = "1";
+    # UTF-8 for files, pipes and the console, whatever the locale says
+    # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUTF8
+    PYTHONUTF8 = "1";
+    # pip only installs into virtual environments, not into ~/.local next to
+    # the pinned Python; pip can't update itself here, so no update notice
+    # https://pip.pypa.io/en/stable/topics/configuration/#environment-variables
+    PIP_REQUIRE_VIRTUALENV = "1";
+    PIP_DISABLE_PIP_VERSION_CHECK = "1";
+    # uv's cache (Linux disk) can't hard-link into projects under /mnt/c, so
+    # copy without warning each time
+    UV_LINK_MODE = "copy";
   };
 
   # pipx and `uv tool install` link the apps' commands into ~/.local/bin

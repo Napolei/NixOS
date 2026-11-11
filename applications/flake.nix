@@ -56,6 +56,7 @@
       pycharm = import ./editors/pycharm;
       python = import ./languages/python;
       wget = import ./network/wget;
+      wsl-open = import ./system/wsl-open;
     };
 
     # Convenient alias

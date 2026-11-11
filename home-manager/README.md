@@ -139,6 +139,6 @@ To add settings for another program: create a `.nix` file under `applications/`,
 | `PAGER` | `less` |
 | `LESS` | `-RF`: keep colours, quit when the text fits on one screen |
 
-Variables of a single program are in that program's settings (e.g. `applications/files/nnn.nix`).
+Variables of a single program are in that program's settings (e.g. `applications/files/nnn.nix`). `applications/text/bat.nix` sets `MANPAGER` and `MANROFFOPT` for coloured man pages through bat, only when bat is installed.
 
 Shell integrations set up by the console tool settings: zoxide (`z`), fzf key bindings, mcfly history search (<kbd>Ctrl</kbd>+<kbd>R</kbd>).
