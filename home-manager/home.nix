@@ -37,6 +37,7 @@
   imports = [
     ./applications
     ./shell/aliases.nix
+    ./shell/env.nix
   ];
 
   # Home Manager configuration for user environment

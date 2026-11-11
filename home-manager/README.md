@@ -99,6 +99,7 @@ home-manager/
 ├── theme.nix                 # Your colour profile: palette, roles, font
 ├── theme-lib.nix             # Colour files of all programs from theme.nix
 ├── shell/aliases.nix         # All user aliases
+├── shell/env.nix             # User environment variables
 └── applications/             # Settings of system-wide programs, in the same groups as /applications
     ├── containers/           # oxker
     ├── development/          # git
@@ -127,5 +128,17 @@ To add settings for another program: create a `.nix` file under `applications/`,
 | `ls`, `ll`, `la`, `lt` | eza with icons; long, long with hidden files, tree |
 | `fz` | `zi`, interactive directory jump (zoxide + fzf) |
 | `fuck` | Fix the last command (pay-respects) |
+
+### Environment variables
+
+`shell/env.nix` holds the user environment variables, on top of the system-wide ones in `/environment` (its own flake). A variable with the same name overrides the system-wide one. They take effect in new login shells.
+
+| Variable | Value |
+|---|---|
+| `EDITOR`, `VISUAL` | `micro` |
+| `PAGER` | `less` |
+| `LESS` | `-RF`: keep colours, quit when the text fits on one screen |
+
+Variables of a single program are in that program's settings (e.g. `applications/files/nnn.nix`).
 
 Shell integrations set up by the console tool settings: zoxide (`z`), fzf key bindings, mcfly history search (<kbd>Ctrl</kbd>+<kbd>R</kbd>).

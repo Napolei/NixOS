@@ -99,7 +99,8 @@ After that, rebuild with `nrs` in `/etc/nixos`.
 │   ├── fonts.nix, networking.nix
 │   ├── hardware/
 │   │   └── hardware-configuration-wsl.nix
-│   └── shell/                    # System-wide aliases and environment
+│   └── shell/                    # System-wide aliases
+├── environment/                  # System-wide environment variables (own flake)
 ├── applications/                 # System-wide programs, one folder per purpose, one per program in it (see below)
 │   ├── containers/               # Docker, oxker
 │   ├── databases/                # SQL Server ODBC drivers
