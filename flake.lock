@@ -16,6 +16,22 @@
       },
       "parent": []
     },
+    "environment": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./environment",
+        "type": "path"
+      },
+      "original": {
+        "path": "./environment",
+        "type": "path"
+      },
+      "parent": []
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -93,6 +109,7 @@
     "root": {
       "inputs": {
         "applications": "applications",
+        "environment": "environment",
         "nix-index-database": "nix-index-database",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs"

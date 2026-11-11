@@ -21,7 +21,6 @@
     ./system/fonts.nix
     ./system/networking.nix
     ./system/shell/aliases.nix
-    ./system/shell/env.nix
   ];
 
   # This value determines the NixOS release from which the default

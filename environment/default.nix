@@ -1,8 +1,11 @@
-# In system/shell/env.nix
+# System-wide environment variables, set for every user and shell
+# https://search.nixos.org/options?query=environment.variables
+
 { config, pkgs, lib, ... }:
 
 {
   environment.variables = {
+    # Bash history
     HISTCONTROL = "ignoredups";
     HISTSIZE = "200000";
     HISTFILESIZE = "200000";

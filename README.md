@@ -8,6 +8,7 @@ The configuration is split by who applies it:
 
 - **System** (`flake.nix`, `configuration.nix`, `core/`, `system/`): NixOS-WSL, services, networking and user accounts. Applied with `sudo`.
 - **Applications** (`applications/`): every program installed system-wide, as its own flake exporting NixOS modules. Imported by the system flake and applied with it.
+- **Environment variables** (`environment/`): the system-wide environment variables, as its own flake exporting a NixOS module. Imported by the system flake and applied with it. Variables of a single program stay in that program's module.
 - **User settings** (`home-manager/`): a standalone Home Manager template that each user copies to `~/.config/home-manager` and applies without `sudo`. It only holds per-user settings (dotfiles, colours, aliases); it doesn't install programs. See [home-manager/README.md](home-manager/README.md).
 
 NixOS runs in WSL through [NixOS-WSL](https://github.com/nix-community/NixOS-WSL) (flake input `nixos-wsl`). The configuration:

@@ -7,6 +7,11 @@
       url = "path:./applications";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # System-wide environment variables
+    environment = {
+      url = "path:./environment";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # NixOS on WSL, enabled in hardware-configuration-wsl.nix
     # https://github.com/nix-community/NixOS-WSL
     nixos-wsl = {
@@ -21,7 +26,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, applications, nixos-wsl, nix-index-database, ... }@inputs:
+  outputs = { self, nixpkgs, applications, environment, nixos-wsl, nix-index-database, ... }@inputs:
     let
       # One configuration per distro, named after its hostname.
       # `nixos-rebuild switch --flake .` builds the one matching the current
@@ -38,6 +43,7 @@
           modules = [
             ./configuration.nix
             applications.nixosModules.default
+            environment.nixosModules.default
             nixos-wsl.nixosModules.default
             nix-index-database.nixosModules.nix-index
           ];

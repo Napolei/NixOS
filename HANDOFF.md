@@ -30,6 +30,7 @@ What was built, why it was built that way, what went wrong and how it was fixed,
 |---|---|---|
 | `flake.nix`, `configuration.nix`, `core/`, `system/` | `nrs` = `sudo nixos-rebuild switch --flake .` (host from the hostname) | NixOS-WSL, users, services |
 | `applications/` (own flake) | Same rebuild | Every program, installed system-wide |
+| `environment/` (own flake) | Same rebuild | System-wide environment variables (formerly `system/shell/env.nix`) |
 | `home-manager/` (own flake, template) | `hms` = `home-manager switch --flake ~/.config/home-manager#<user>` | Per-user settings only, installs no programs (`package = null`) |
 
 - Each part has its own `vars.nix`.
