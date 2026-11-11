@@ -28,6 +28,12 @@ let
         ]
       } $out/lib/libmsodbcsql-${versionMajor}.${versionMinor}.so.${versionAdditional}
     '';
+
+    # IMPORTANT: Update the unixODBC registration metadata too!
+    passthru = (old.passthru or {}) // {
+      fancyName = "ODBC Driver 17 for SQL Server";
+      driver = "lib/libmsodbcsql-${versionMajor}.${versionMinor}.so.${versionAdditional}";
+    };
   });
 in
 {
