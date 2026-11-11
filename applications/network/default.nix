@@ -9,6 +9,7 @@
     ./dnsutils
     ./gping
     ./httpie
+    ./openssl
     ./rclone
     ./wget
   ];
