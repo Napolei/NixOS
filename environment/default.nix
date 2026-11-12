@@ -22,5 +22,8 @@
     # Opt out of telemetry in tools that follow this convention
     # https://consoledonottrack.com
     DO_NOT_TRACK = "1";
+
+    # for developments inside WSL
+    CONFIG_PATH = "/mnt/c/Dev/configs"
   };
 }
