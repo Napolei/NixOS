@@ -56,8 +56,11 @@ If `hms` ends with "systemd is degraded", a user service failed. Show it with `s
 |---|---|
 | `user.username`, `user.homeDirectory` | Your account; also the name after `#` in the switch command |
 | `stateVersion` | Home Manager version of the first activation, don't change it later |
-| `prompt.theme` | Powerline theme of the prompt in all terminals except the JetBrains ones: `default` (git branch on the right side of the line) or `default_leftonly` (branch next to the path) |
-| `prompt.jetbrainsTheme` | The same for the terminal of PyCharm and the other JetBrains IDEs (`TERMINAL_EMULATOR=JetBrains-JediTerm`). Keep `default_leftonly`: that terminal can't draw the right side |
+| `prompt.engine` | Program that draws the bash prompt: `oh-my-posh` (default) or `powerline` |
+| `prompt.ohMyPosh.theme` | oh-my-posh theme of all terminals except the JetBrains ones, by file name: a file in `oh-my-posh/` (default `theme.omp.json`, the two-line prompt with user, path, git, Python, Node.js, run time) or a theme that comes with oh-my-posh, e.g. `agnoster` ([previews](https://ohmyposh.dev/docs/themes)). JSON files in `oh-my-posh/` can use the `theme.nix` colours as `p:<name>` (`text`, `dark`, `user`, `path`, `accent`, `dimmed`, `warning`, `error`); a `palette` in the file wins. [How to write a theme](https://ohmyposh.dev/docs/configuration/general) |
+| `prompt.ohMyPosh.jetbrainsTheme` | The same for the terminal of PyCharm and the other JetBrains IDEs. Default `theme-jetbrains.omp.json`: `theme.omp.json` with the right side at the end of the left one |
+| `prompt.powerline.theme` | Powerline theme in all terminals except the JetBrains ones: `default` (git branch on the right side of the line) or `default_leftonly` (branch next to the path) |
+| `prompt.powerline.jetbrainsTheme` | The same for the terminal of PyCharm and the other JetBrains IDEs (`TERMINAL_EMULATOR=JetBrains-JediTerm`). Keep `default_leftonly`: that terminal can't draw the right side |
 | `theme` | The colour profile, imported from `theme.nix` (see [below](#theme-themenix)) |
 
 ## Theme (`theme.nix`)
@@ -71,7 +74,7 @@ The colour profile of the terminal and its tools is in `theme.nix`, imported by 
 | `roles` | Which palette colour is the accent, the secondary colour, the surface (selection, borders) and dimmed text. `error` and `warning` here are only used by programs limited to the 16 terminal colours (nano) |
 | `highlight`, `raisedLighten` | Colour-blind friendly highlights in the prompt and terminal programs: `highlight` is a light role or palette colour (active tab, selection, ripgrep matches, with dark text), `raisedLighten` how many percent the background is lightened for status bars and the prompt's path. Neighbouring elements differ in lightness, not only in hue |
 | `font` | Terminal font |
-| `prompt` | Powerline prompt: `user`, the background of the user name, and `pathLighten`, how much the background is lightened behind the path and the git branch. By default `highlight` and `raisedLighten` |
+| `prompt` | Prompt colours (oh-my-posh and powerline): `user`, the background of the user name, and `pathLighten`, how much the background is lightened behind the path and the git branch. By default `highlight` and `raisedLighten` |
 | `kitty.font`, `kitty.fontSize` | kitty font and size in points (WSLg doesn't scale for high-DPI screens) |
 
 The colour files of all programs are written by the functions in `theme-lib.nix`.
@@ -83,7 +86,7 @@ The colour files of all programs are written by the functions in `theme-lib.nix`
 | kitty | `~/.config/kitty/colors.conf`, included by `kitty.conf` |
 | Other terminals (e.g. Windows Terminal) | Escape sequences for the palette, text, background and cursor when bash starts (`applications/terminal/terminal-colors.nix`) |
 | bat, fzf, nano | Terminal colours chosen by role (bat theme `ansi`, fzf `--color=16`, `~/.config/nano/nanorc`) |
-| Powerline prompt | `~/.config/powerline/colors.json`, in true colour. Backgrounds from `theme.nix` (`prompt`) |
+| Prompt | oh-my-posh: the palette merged into the JSON themes in `~/.config/oh-my-posh/`; powerline: `~/.config/powerline/colors.json`. Both in true colour, backgrounds from `theme.nix` (`prompt`) |
 | btop | `~/.config/btop/themes/theme.theme`, set as `color_theme` in `btop.conf` on every `hms` (the rest of `btop.conf` stays editable) |
 | tmux, yazi, superfile, micro, oxker | `~/.config/tmux/colors.conf` (sourced by `tmux.conf`), `~/.config/yazi/theme.toml`, superfile theme `theme` (set in superfile's `config.toml` on every `hms`), micro colour scheme `theme` (set in micro's `settings.json`), `~/.config/oxker/config.toml`: selections and the active tab dark on `highlight`, status bars raised |
 | ripgrep | `~/.config/ripgrep/config`, read through `RIPGREP_CONFIG_PATH` (new logins): matches dark on `highlight`, paths in the accent colour |
@@ -110,7 +113,7 @@ home-manager/
     ├── network/              # httpie
     ├── search/               # fd, fzf, ripgrep
     ├── system/               # btop, glances
-    ├── terminal/             # kitty, mcfly, pay-respects, powerline, tealdeer, tmux,
+    ├── terminal/             # kitty, mcfly, oh-my-posh, pay-respects, powerline, tealdeer, tmux,
     │                         # terminal-colors.nix (palette for terminals other than kitty)
     └── text/                 # bat
 ```

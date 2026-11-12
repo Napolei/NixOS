@@ -57,11 +57,9 @@
     ];
   };
 
-  # User-specific shell configuration
-  programs.bash = {
-    enable = true;
-    bashrcExtra = ''. ${pkgs.powerline}/share/bash/powerline.sh'';
-  };
+  # User-specific shell configuration (the prompt: applications/terminal,
+  # oh-my-posh.nix or powerline.nix, by prompt.engine in vars.nix)
+  programs.bash.enable = true;
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;

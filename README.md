@@ -173,7 +173,7 @@ Every program has its own module in `applications/<group>/<program>/default.nix`
 | `network` | curl, curlie, dnsutils (dig, nslookup), gping, httpie, rclone, wget |
 | `search` | fd, fselect, fzf, ripgrep (`rg`) |
 | `system` | btop, duf, dust, glances, htop, iotop, procs, system-tools (file, tree, lsof, lspci, lsusb) |
-| `terminal` | kitty, mcfly, pay-respects (`fuck`), powerline, tealdeer (`tldr`), tmux |
+| `terminal` | kitty, mcfly, oh-my-posh (prompt), pay-respects (`fuck`), powerline, tealdeer (`tldr`), tmux |
 | `text` | bat, choose, jq / yq |
 
 `applications/development/direnv` loads a project's Nix dev shell when you enter its directory: `echo "use flake" > .envrc && direnv allow`.

@@ -52,6 +52,7 @@
       mssql-odbc = import ./databases/mssql-odbc;
       nano = import ./editors/nano;
       nodejs = import ./languages/nodejs;
+      oh-my-posh = import ./terminal/oh-my-posh;
       powerline = import ./terminal/powerline;
       pycharm = import ./editors/pycharm;
       python = import ./languages/python;

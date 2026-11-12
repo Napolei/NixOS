@@ -438,27 +438,29 @@ rec {
       text_highlight = "${light}"
     '';
 
-  # Powerline prompt colours, ~/.config/powerline/colors.json (true colour,
-  # see applications/terminal/powerline.nix). Each: [ 256-colour fallback, hex ].
-  powerline = c:
+  # Prompt colours (theme.nix: prompt), hex without "#", for powerline and
+  # oh-my-posh (applications/terminal/powerline.nix, oh-my-posh.nix)
+  promptColors = c:
     let
       prompt = theme.prompt or { };
       user = prompt.user or "color15";
-      entriesOf = c: {
-        theme_text = c.foreground;
-        theme_dark = c.background;
-        # A role or a palette colour, e.g. "dimmed" or "color15"
-        theme_user = c.${theme.roles.${user} or user};
-        theme_path = c.lighten "background" (prompt.pathLighten or 25);
-        theme_accent = role c "accent";
-        theme_dimmed = role c "dimmed";
-        theme_warning = warning;
-        theme_error = error;
-      };
-    in ''
+    in {
+      text = c.foreground;
+      dark = c.background;
+      # A role or a palette colour, e.g. "dimmed" or "color15"
+      user = c.${theme.roles.${user} or user};
+      path = c.lighten "background" (prompt.pathLighten or 25);
+      accent = role c "accent";
+      dimmed = role c "dimmed";
+      inherit warning error;
+    };
+
+  # Powerline prompt colours, ~/.config/powerline/colors.json (true colour,
+  # see applications/terminal/powerline.nix). Each: [ 256-colour fallback, hex ].
+  powerline = c: ''
       ${c.lb}"colors": ${c.lb}
       ${lib.concatStringsSep ",\n" (lib.mapAttrsToList (name: hex:
-        "  \"${name}\": [${toString (cube hex)}, \"${hex}\"]") (entriesOf c))}
+        "  \"theme_${name}\": [${toString (cube hex)}, \"${hex}\"]") (promptColors c))}
       ${c.rb}${c.rb}
     '';
 

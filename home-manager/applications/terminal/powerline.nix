@@ -5,7 +5,7 @@
 # colour, with the exact colours from theme.colors.
 # https://powerline.readthedocs.io/en/master/configuration/reference.html
 
-{ config, lib, vars, ... }:
+{ config, pkgs, lib, vars, ... }:
 
 let
   themeLib = import ../../theme-lib.nix { inherit lib vars; };
@@ -13,20 +13,22 @@ let
   group = fg: bg: attrs: { fg = "theme_${fg}"; bg = "theme_${bg}"; inherit attrs; };
 in
 {
-  # Shell theme (vars.prompt.theme)
+  # Shell theme (vars.prompt.powerline.theme)
   xdg.configFile."powerline/config.json".text = builtins.toJSON {
     common.term_truecolor = true;
-    ext.shell.theme = vars.prompt.theme;
+    ext.shell.theme = vars.prompt.powerline.theme;
   };
 
-  # The JetBrains IDEs' terminal gets vars.prompt.jetbrainsTheme. Powerline
-  # draws the right side of the bash prompt (git branch) with the cursor save /
-  # restore codes (ESC[s, ESC[u), which that terminal ignores. Read by
-  # powerline at every prompt.
-  programs.bash.initExtra = ''
+  # The prompt, when prompt.engine is "powerline". The JetBrains IDEs' terminal
+  # gets vars.prompt.powerline.jetbrainsTheme: powerline draws the right side
+  # of the bash prompt (git branch) with the cursor save / restore codes
+  # (ESC[s, ESC[u), which that terminal ignores. Read by powerline at every
+  # prompt.
+  programs.bash.bashrcExtra = lib.mkIf (vars.prompt.engine == "powerline") ''
     if [[ ''${TERMINAL_EMULATOR-} == JetBrains-JediTerm ]]; then
-      export POWERLINE_CONFIG_OVERRIDES=${lib.escapeShellArg "ext.shell.theme=${vars.prompt.jetbrainsTheme}"}
+      export POWERLINE_CONFIG_OVERRIDES=${lib.escapeShellArg "ext.shell.theme=${vars.prompt.powerline.jetbrainsTheme}"}
     fi
+    . ${pkgs.powerline}/share/bash/powerline.sh
   '';
 
   xdg.configFile."powerline/colors.json".text = themeLib.powerline themeLib.palette;

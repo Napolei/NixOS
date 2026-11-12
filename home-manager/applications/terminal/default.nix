@@ -5,6 +5,7 @@
   imports = [
     ./kitty.nix
     ./mcfly.nix
+    ./oh-my-posh.nix
     ./pay-respects.nix
     ./powerline.nix
     ./tealdeer.nix

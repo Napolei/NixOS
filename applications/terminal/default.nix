@@ -6,6 +6,7 @@
   imports = [
     ./kitty
     ./mcfly
+    ./oh-my-posh
     ./pay-respects
     ./powerline
     ./tealdeer
