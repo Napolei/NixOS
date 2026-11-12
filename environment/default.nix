@@ -24,6 +24,6 @@
     DO_NOT_TRACK = "1";
 
     # for developments inside WSL
-    CONFIG_PATH = "/mnt/c/Dev/configs"
+    CONFIG_PATH = "/mnt/c/Dev/configs";
   };
 }
