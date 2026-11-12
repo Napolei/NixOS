@@ -25,6 +25,22 @@
   stateVersion = "26.05";
 
   # ----------------------------------------------------------------------------
+  # Prompt (powerline, applications/terminal/powerline.nix)
+  # ----------------------------------------------------------------------------
+  # Powerline shell themes:
+  # - "default": the git branch on the right side of the line
+  # - "default_leftonly": the git branch next to the path
+  prompt = {
+    # All terminals except the JetBrains ones
+    theme = "default";
+    # The terminal of PyCharm and the other JetBrains IDEs
+    # (TERMINAL_EMULATOR=JetBrains-JediTerm). It can't draw the right side:
+    # with "default", the cursor stays behind the branch and every key starts
+    # a new line.
+    jetbrainsTheme = "default_leftonly";
+  };
+
+  # ----------------------------------------------------------------------------
   # Theme: colour profile of the terminal and its tools (theme.nix)
   # ----------------------------------------------------------------------------
   theme = import ./theme.nix;

@@ -13,9 +13,21 @@ let
   group = fg: bg: attrs: { fg = "theme_${fg}"; bg = "theme_${bg}"; inherit attrs; };
 in
 {
+  # Shell theme (vars.prompt.theme)
   xdg.configFile."powerline/config.json".text = builtins.toJSON {
     common.term_truecolor = true;
+    ext.shell.theme = vars.prompt.theme;
   };
+
+  # The JetBrains IDEs' terminal gets vars.prompt.jetbrainsTheme. Powerline
+  # draws the right side of the bash prompt (git branch) with the cursor save /
+  # restore codes (ESC[s, ESC[u), which that terminal ignores. Read by
+  # powerline at every prompt.
+  programs.bash.initExtra = ''
+    if [[ ''${TERMINAL_EMULATOR-} == JetBrains-JediTerm ]]; then
+      export POWERLINE_CONFIG_OVERRIDES=${lib.escapeShellArg "ext.shell.theme=${vars.prompt.jetbrainsTheme}"}
+    fi
+  '';
 
   xdg.configFile."powerline/colors.json".text = themeLib.powerline themeLib.palette;
 

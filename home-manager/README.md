@@ -56,6 +56,8 @@ If `hms` ends with "systemd is degraded", a user service failed. Show it with `s
 |---|---|
 | `user.username`, `user.homeDirectory` | Your account; also the name after `#` in the switch command |
 | `stateVersion` | Home Manager version of the first activation, don't change it later |
+| `prompt.theme` | Powerline theme of the prompt in all terminals except the JetBrains ones: `default` (git branch on the right side of the line) or `default_leftonly` (branch next to the path) |
+| `prompt.jetbrainsTheme` | The same for the terminal of PyCharm and the other JetBrains IDEs (`TERMINAL_EMULATOR=JetBrains-JediTerm`). Keep `default_leftonly`: that terminal can't draw the right side |
 | `theme` | The colour profile, imported from `theme.nix` (see [below](#theme-themenix)) |
 
 ## Theme (`theme.nix`)

@@ -60,16 +60,7 @@
   # User-specific shell configuration
   programs.bash = {
     enable = true;
-    bashrcExtra = ''
-      # Powerline draws the right side of the prompt (git branch) with the
-      # cursor save / restore codes (ESC[s, ESC[u), which PyCharm's terminal
-      # (JediTerm) ignores: the cursor stayed behind the branch and every key
-      # started a new line. There the branch goes on the left instead.
-      if [[ ''${TERMINAL_EMULATOR-} == JetBrains-JediTerm ]]; then
-        export POWERLINE_CONFIG_OVERRIDES="ext.shell.theme=default_leftonly"
-      fi
-      . ${pkgs.powerline}/share/bash/powerline.sh
-    '';
+    bashrcExtra = ''. ${pkgs.powerline}/share/bash/powerline.sh'';
   };
 
   # Let Home Manager install and manage itself
