@@ -49,4 +49,21 @@ lib.mkIf (vars.prompt.engine == "oh-my-posh") {
       fi
     fi
   '';
+
+  programs.bash.bashrcExtra = ''
+    # Automatically activate Poetry environments
+    if [[ $- == *i* ]] && \
+       [[ -f "pyproject.toml" ]] && \
+       command -v poetry >/dev/null 2>&1 && \
+       [[ -z "$VIRTUAL_ENV" ]]; then
+
+        VENV_PATH=$(poetry env info --path 2>/dev/null)
+
+        if [[ -f "$VENV_PATH/bin/activate" ]]; then
+            source "$VENV_PATH/bin/activate"
+        fi
+
+        unset VENV_PATH
+    fi
+  '';
 }
