@@ -32,12 +32,19 @@
         },
 	    {
 		  "type": "python",
-		  "style": "diamond",
+		  "style": "powerline",
 		  "powerline_symbol": "\ue0b0",
 		  "background": "#7048A8",
           "foreground": "#FFFFFF",
+          "template": " {{ if hasPrefix \"lu-etat-fi-\" .Venv }}{{ $parts := splitn \"-\" 2 (regexReplaceAll \"-py[0-9]+\\\\.[0-9]+$\" (trimPrefix \"lu-etat-fi-\" .Venv) \"\") }}{{ $parts._0 }}{{ else }}{{ .Venv }}{{ end }} "
+        },
+        {
+          "type": "python",
+          "style": "diamond",
+          "background": "#A47BD9",
+          "foreground": "#1E1033",
           "trailing_diamond": "\ue0b0",
-          "template": " {{ if hasPrefix \"lu-etat-fi-\" .Venv }}{{ regexReplaceAll \"-py[0-9]+\\\\.[0-9]+$\" (trimPrefix \"lu-etat-fi-\" .Venv) \"\" }}{{ else }}{{ .Venv }}{{ end }} "
+          "template": "{{ if hasPrefix \"lu-etat-fi-\" .Venv }}{{ $parts := splitn \"-\" 2 (regexReplaceAll \"-py[0-9]+\\\\.[0-9]+$\" (trimPrefix \"lu-etat-fi-\" .Venv) \"\") }}{{ if $parts._1 }} {{ $parts._1 }} {{ end }}{{ end }}"
         },
         {
           "background": "#176B68",
